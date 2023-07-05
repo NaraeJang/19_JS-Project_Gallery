@@ -50,8 +50,8 @@ Gallery.prototype.openModal = function (selectedImage, list) {
     .join("");
   this.modal.classList.add("open");
   this.closeBtn.addEventListener("click", this.closeModal);
-  this.closeBtn.addEventListener("click", this.nextImage);
-  this.closeBtn.addEventListener("click", this.prevImage);
+  this.nextBtn.addEventListener("click", this.nextImage);
+  this.prevBtn.addEventListener("click", this.prevImage);
 };
 
 Gallery.prototype.setMainImage = function (selectedImage) {
@@ -62,14 +62,25 @@ Gallery.prototype.setMainImage = function (selectedImage) {
 Gallery.prototype.closeModal = function () {
   this.modal.classList.remove("open");
   this.closeBtn.removeEventListener("click", this.closeModal);
-  this.closeBtn.removeEventListener("click", this.nextImage);
-  this.closeBtn.removeEventListener("click", this.prevImage);
+  this.nextBtn.removeEventListener("click", this.nextImage);
+  this.prevBtn.removeEventListener("click", this.prevImage);
 };
 Gallery.prototype.prevImage = function () {
-  console.log("empty for now");
+  const selected = this.modalImages.querySelector(".selected");
+  const prev =
+    selected.previousElementSibling || this.modalImages.lastElementChild;
+  selected.classList.remove("selected");
+  prev.classList.add("selected");
+  this.setMainImage(prev);
 };
+
 Gallery.prototype.nextImage = function () {
-  console.log("empty for now");
+  const selected = this.modalImages.querySelector(".selected");
+  const next =
+    selected.nextElementSibling || this.modalImages.firstElementChild;
+  selected.classList.remove("selected");
+  next.classList.add("selected");
+  this.setMainImage(next);
 };
 
 const nature = new Gallery(getElement(".nature")),
