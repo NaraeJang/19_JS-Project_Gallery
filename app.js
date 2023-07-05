@@ -25,6 +25,7 @@ function Gallery(element) {
   this.closeModal = this.closeModal.bind(this);
   this.nextImage = this.nextImage.bind(this);
   this.prevImage = this.prevImage.bind(this);
+  this.chooseImage = this.chooseImage.bind(this);
   // bind functions
   // this.openModal = this.openModal.bind(this); //By using bind(), we can indicate Gallery so that we have access to its values.
   // container event
@@ -52,6 +53,7 @@ Gallery.prototype.openModal = function (selectedImage, list) {
   this.closeBtn.addEventListener("click", this.closeModal);
   this.nextBtn.addEventListener("click", this.nextImage);
   this.prevBtn.addEventListener("click", this.prevImage);
+  this.modalImages.addEventListener("click", this.chooseImage);
 };
 
 Gallery.prototype.setMainImage = function (selectedImage) {
@@ -64,6 +66,7 @@ Gallery.prototype.closeModal = function () {
   this.closeBtn.removeEventListener("click", this.closeModal);
   this.nextBtn.removeEventListener("click", this.nextImage);
   this.prevBtn.removeEventListener("click", this.prevImage);
+  this.modalImages.removeEventListener("click", this.chooseImage);
 };
 Gallery.prototype.prevImage = function () {
   const selected = this.modalImages.querySelector(".selected");
@@ -81,6 +84,17 @@ Gallery.prototype.nextImage = function () {
   selected.classList.remove("selected");
   next.classList.add("selected");
   this.setMainImage(next);
+};
+
+Gallery.prototype.chooseImage = function (e) {
+  const chosenImage = e.target;
+  const selected = this.modalImages.querySelector(".selected");
+
+  if (e.target.classList.contains("modal-img")) {
+    this.setMainImage(chosenImage);
+    selected.classList.remove("selected");
+    chosenImage.classList.add("selected");
+  }
 };
 
 const nature = new Gallery(getElement(".nature")),
